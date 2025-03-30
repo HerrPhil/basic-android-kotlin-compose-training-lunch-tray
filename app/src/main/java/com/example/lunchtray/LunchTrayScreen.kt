@@ -195,7 +195,10 @@ fun LunchTrayApp(
             composable(route = LunchTrayScreen.Entree.name) {
                 EntreeMenuScreen(
                     options = DataSource.entreeMenuItems,
-                    onCancelButtonClicked = { cancelOrderAndNavigateToStart(navController) },
+                    onCancelButtonClicked = {
+                        viewModel.resetOrder()
+                        cancelOrderAndNavigateToStart(navController)
+                    },
                     onNextButtonClicked = { navController.navigate(LunchTrayScreen.SideDish.name) },
                     onSelectionChanged = { viewModel.updateEntree(it) },
                     modifier = Modifier
@@ -208,7 +211,10 @@ fun LunchTrayApp(
             composable(route = LunchTrayScreen.SideDish.name) {
                 SideDishMenuScreen(
                     options = DataSource.sideDishMenuItems,
-                    onCancelButtonClicked = { cancelOrderAndNavigateToStart(navController) },
+                    onCancelButtonClicked = {
+                        viewModel.resetOrder()
+                        cancelOrderAndNavigateToStart(navController)
+                    },
                     onNextButtonClicked = { navController.navigate(LunchTrayScreen.Accompaniment.name) },
                     onSelectionChanged = { viewModel.updateSideDish(it) },
                     modifier = Modifier
@@ -221,7 +227,10 @@ fun LunchTrayApp(
             composable(route = LunchTrayScreen.Accompaniment.name) {
                 AccompanimentMenuScreen(
                     options = DataSource.accompanimentMenuItems,
-                    onCancelButtonClicked = { cancelOrderAndNavigateToStart(navController) },
+                    onCancelButtonClicked = {
+                        viewModel.resetOrder()
+                        cancelOrderAndNavigateToStart(navController)
+                    },
                     onNextButtonClicked = { navController.navigate(LunchTrayScreen.OrderCheckout.name) },
                     onSelectionChanged = { viewModel.updateAccompaniment(it) },
                     modifier = Modifier
@@ -234,8 +243,12 @@ fun LunchTrayApp(
             composable(route = LunchTrayScreen.OrderCheckout.name) {
                 CheckoutScreen(
                     orderUiState = uiState,
-                    onCancelButtonClicked = { cancelOrderAndNavigateToStart(navController) },
+                    onCancelButtonClicked = {
+                        viewModel.resetOrder()
+                        cancelOrderAndNavigateToStart(navController)
+                    },
                     onNextButtonClicked = {
+                        viewModel.resetOrder()
                         cancelOrderAndNavigateToStart(navController) // pop to start like cancel
                         Log.i("LunchTrayApp", "TODO: submit order to the <checkout> service.")
                     },
